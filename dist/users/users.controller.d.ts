@@ -23,17 +23,17 @@ export declare class UsersController {
     }): Promise<{
         message: string;
     }>;
-    addCar(userId: string, addCarDto: AddCarDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
+    addCar(req: AuthRequest, dto: AddCarDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    updateCar(userId: string, updateCarDto: UpdateCarDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
+    updateCar(req: AuthRequest, dto: UpdateCarDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    removeCar(userId: string): Promise<{
+    removeCar(req: AuthRequest): Promise<{
         message: string;
         user: import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
             _id: unknown;
@@ -41,23 +41,23 @@ export declare class UsersController {
             __v: number;
         };
     }>;
-    getCars(userId: string): Promise<import("./user.schema").Car | undefined>;
-    createWarning(userId: string, addWarningDto: AddWarningDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
+    getCars(req: AuthRequest): Promise<import("./user.schema").Car | undefined>;
+    createWarning(req: AuthRequest, dto: AddWarningDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    removeWarning(userId: string, warningId: string): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
+    removeWarning(req: AuthRequest, warningId: string): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    createCoast(userId: string, addCostDto: AddCostDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
+    createCost(req: AuthRequest, addCostDto: AddCostDto): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    removeCost(userId: string, costId: string): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
+    removeCost(req: AuthRequest, costId: string): Promise<import("mongoose").Document<unknown, {}, import("./user.schema").User> & import("./user.schema").User & Required<{
         _id: unknown;
     }> & {
         __v: number;

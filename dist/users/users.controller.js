@@ -47,28 +47,41 @@ let UsersController = class UsersController {
         const result = this.usersService.changePassword(req.user.userId, changePasswordDto);
         return result;
     }
-    async addCar(userId, addCarDto) {
-        return this.usersService.addCar(userId, addCarDto);
+    async addCar(req, dto) {
+        const userId = req.user?.userId;
+        return this.usersService.addCar(userId, dto);
     }
-    async updateCar(userId, updateCarDto) {
-        return this.usersService.updateCar(userId, updateCarDto);
+    async updateCar(req, dto) {
+        const userId = req.user?.userId;
+        return this.usersService.updateCar(userId, dto);
     }
-    async removeCar(userId) {
+    async removeCar(req) {
+        const userId = req.user?.userId;
         return this.usersService.removeCar(userId);
     }
-    async getCars(userId) {
+    async getCars(req) {
+        const userId = req.user?.userId;
+        if (!userId) {
+            console.log(req.user);
+            throw new common_1.UnauthorizedException('User ID not found in request');
+        }
         return this.usersService.getCar(userId);
     }
-    async createWarning(userId, addWarningDto) {
-        return this.usersService.addWarning(userId, addWarningDto);
+    async createWarning(req, dto) {
+        const userId = req.user?.userId;
+        return this.usersService.addWarning(userId, dto);
     }
-    async removeWarning(userId, warningId) {
+    async removeWarning(req, warningId) {
+        const userId = req.user?.userId || '';
         return this.usersService.removeWarning(userId, warningId);
     }
-    async createCoast(userId, addCostDto) {
+    async createCost(req, addCostDto) {
+        const userId = req.user?.userId;
+        console.log(2);
         return this.usersService.addCost(userId, addCostDto);
     }
-    async removeCost(userId, costId) {
+    async removeCost(req, costId) {
+        const userId = req.user?.userId;
         return this.usersService.removeCost(userId, costId);
     }
 };
@@ -107,65 +120,73 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "changePassword", null);
 __decorate([
-    (0, common_1.Post)(':userId/car'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/car'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, add_car_dto_1.AddCarDto]),
+    __metadata("design:paramtypes", [Object, add_car_dto_1.AddCarDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "addCar", null);
 __decorate([
-    (0, common_1.Put)(':userId/car'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Put)('/car'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_car_dto_1.UpdateCarDto]),
+    __metadata("design:paramtypes", [Object, update_car_dto_1.UpdateCarDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateCar", null);
 __decorate([
-    (0, common_1.Delete)(':userId/car/'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)('/car'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "removeCar", null);
 __decorate([
-    (0, common_1.Get)(':userId/car'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('/car'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getCars", null);
 __decorate([
-    (0, common_1.Post)(':userId/car/warnings'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/car/warnings'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, add_warning_dto_1.AddWarningDto]),
+    __metadata("design:paramtypes", [Object, add_warning_dto_1.AddWarningDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "createWarning", null);
 __decorate([
-    (0, common_1.Delete)(':userId/car/warnings/:warningId'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)('/car/warnings/:warningId'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('warningId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "removeWarning", null);
 __decorate([
-    (0, common_1.Post)(':userId/car/costs'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('/car/costs'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, add_cost_dto_1.AddCostDto]),
+    __metadata("design:paramtypes", [Object, add_cost_dto_1.AddCostDto]),
     __metadata("design:returntype", Promise)
-], UsersController.prototype, "createCoast", null);
+], UsersController.prototype, "createCost", null);
 __decorate([
-    (0, common_1.Delete)(':userId/car/costs/:costId'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Delete)('/car/costs/:costId'),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('costId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "removeCost", null);
 exports.UsersController = UsersController = __decorate([

@@ -64,61 +64,60 @@ export class UsersController {
     );
     return result;
   }
-
-  // Додавання автомобіля
-  @Post(':userId/car')
-  async addCar(@Param('userId') userId: string, @Body() addCarDto: AddCarDto) {
-    return this.usersService.addCar(userId, addCarDto);
+  @UseGuards(JwtAuthGuard)
+  @Post('/car')
+  async addCar(@Req() req: AuthRequest, @Body() dto: AddCarDto) {
+    const userId = req.user?.userId as string;
+    return this.usersService.addCar(userId, dto);
   }
-
-  // Оновлення автомобіля
-  @Put(':userId/car')
-  async updateCar(
-    @Param('userId') userId: string,
-    @Body() updateCarDto: UpdateCarDto,
-  ) {
-    return this.usersService.updateCar(userId, updateCarDto);
+  @UseGuards(JwtAuthGuard)
+  @Put('/car')
+  async updateCar(@Req() req: AuthRequest, @Body() dto: UpdateCarDto) {
+    const userId = req.user?.userId as string;
+    return this.usersService.updateCar(userId, dto);
   }
-
-  // Видалення автомобіля
-  @Delete(':userId/car/')
-  async removeCar(@Param('userId') userId: string) {
+  @UseGuards(JwtAuthGuard)
+  @Delete('/car')
+  async removeCar(@Req() req: AuthRequest) {
+    const userId = req.user?.userId as string;
     return this.usersService.removeCar(userId);
   }
-
-  // Отримання всіх автомобілів користувача
-  @Get(':userId/car')
-  async getCars(@Param('userId') userId: string) {
+  @UseGuards(JwtAuthGuard)
+  @Get('/car')
+  async getCars(@Req() req: AuthRequest) {
+    const userId = req.user?.userId as string;
+    if (!userId) {
+      console.log(req.user);
+      throw new UnauthorizedException('User ID not found in request');
+    }
     return this.usersService.getCar(userId);
   }
-
-  @Post(':userId/car/warnings')
-  async createWarning(
-    @Param('userId') userId: string,
-    @Body() addWarningDto: AddWarningDto,
-  ) {
-    return this.usersService.addWarning(userId, addWarningDto);
+  @UseGuards(JwtAuthGuard)
+  @Post('/car/warnings')
+  async createWarning(@Req() req: AuthRequest, @Body() dto: AddWarningDto) {
+    const userId = req.user?.userId;
+    return this.usersService.addWarning(userId, dto);
   }
-  @Delete(':userId/car/warnings/:warningId')
+  @UseGuards(JwtAuthGuard)
+  @Delete('/car/warnings/:warningId')
   async removeWarning(
-    @Param('userId') userId: string,
+    @Req() req: AuthRequest,
     @Param('warningId') warningId: string,
   ) {
+    const userId = req.user?.userId || '';
     return this.usersService.removeWarning(userId, warningId);
   }
-
-  @Post(':userId/car/costs')
-  async createCoast(
-    @Param('userId') userId: string,
-    @Body() addCostDto: AddCostDto,
-  ) {
+  @UseGuards(JwtAuthGuard)
+  @Post('/car/costs')
+  async createCost(@Req() req: AuthRequest, @Body() addCostDto: AddCostDto) {
+    const userId = req.user?.userId;
+    console.log(2);
     return this.usersService.addCost(userId, addCostDto);
   }
-  @Delete(':userId/car/costs/:costId')
-  async removeCost(
-    @Param('userId') userId: string,
-    @Param('costId') costId: string,
-  ) {
+  @UseGuards(JwtAuthGuard)
+  @Delete('/car/costs/:costId')
+  async removeCost(@Req() req: AuthRequest, @Param('costId') costId: string) {
+    const userId = req.user?.userId;
     return this.usersService.removeCost(userId, costId);
   }
   // Отримання конкретного автомобіля
